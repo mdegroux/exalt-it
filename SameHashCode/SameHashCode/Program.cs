@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace SameHashCode
@@ -16,27 +17,28 @@ namespace SameHashCode
 
     private static (string s1, string s2, string s3) GenerateStrings()
     {
-      //The average count of hascodes generated before having a positive match is about 4 000 000
-      var hashCodes = new Dictionary<int, List<string>>(4000000);
-
-      int i = 0;
+      //The average count of hascodes generated before having a positive match is about 10 000 000
+      var hashCodes = new Dictionary<int, HashSet<string>>(10000000);
 
       while (true)
       {
         //Generate a string, we could use other methods such as Random, Path.GetRandomFileName, Guid.NewGuid
-        string str = (i++).ToString();
+        string str = Guid.NewGuid().ToString();
         int hashCode = str.GetHashCode();
 
         //We keep a list of strings for a given hashcode
-        List<string> strings;
+        HashSet<string> strings;
         if (!hashCodes.TryGetValue(hashCode, out strings))
-          hashCodes[hashCode] = strings = new List<string>(3);
+          hashCodes[hashCode] = strings = new HashSet<string>(3);
 
         strings.Add(str);
 
         //Once we have a list of three strings, we have a match
         if (strings.Count == 3)
-          return (strings[0], strings[1], strings[2]);
+        {
+          string[] stringArray = strings.ToArray();
+          return (stringArray[0], stringArray[1], stringArray[2]);
+        }
       }
     }
 
