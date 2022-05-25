@@ -7,7 +7,7 @@ namespace Multiply
   {
     static void Main(string[] args)
     {
-      string product = Multiply( "1250","4230");
+      string product = Multiply( "999","999");
     }
     private static string Multiply(string s1, string s2)
     {
@@ -33,7 +33,7 @@ namespace Multiply
         }
 
         if (carry > 0)
-          result[result.Length - s1Offset -1] += (byte)carry;
+          result[result.Length - s1Offset - s2.Length -1] += (byte)carry;
       }
 
       int startIndex = 0;
